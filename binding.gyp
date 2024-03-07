@@ -3,6 +3,9 @@
     'openssl_fips': "",
   },
   'target_defaults': {
+    'dependencies': [
+      "<!(node -p \"require('node-addon-api').targets\"):node_addon_api_except",
+    ],
     'conditions': [
       ['OS=="win"', {
         'msvs_configuration_attributes': {
@@ -32,9 +35,6 @@
       'targets': [
         {
           'target_name': 'conpty',
-          'include_dirs' : [
-            '<!(node -e "require(\'nan\')")'
-          ],
           'sources' : [
             'src/win/conpty.cc',
             'src/win/path_util.cc'
@@ -45,9 +45,6 @@
         },
         {
           'target_name': 'conpty_console_list',
-          'include_dirs' : [
-            '<!(node -e "require(\'nan\')")'
-          ],
           'sources' : [
             'src/win/conpty_console_list.cc'
           ],
@@ -55,7 +52,7 @@
         {
           'target_name': 'pty',
           'include_dirs' : [
-            '<!(node -e "require(\'nan\')")',
+            '<!(node -p "require(\'node-addon-api\').include_dir")',
             'deps/winpty/src/include',
           ],
           # Disabled due to winpty
@@ -77,9 +74,6 @@
       'targets': [
         {
           'target_name': 'pty',
-          'include_dirs' : [
-            '<!(node -e "require(\'nan\')")'
-          ],
           'sources': [
             'src/unix/pty.cc',
           ],
